@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -36,5 +37,15 @@ class Blog
     return static::all()->firstWhere('slug',$slug);
    
     }
+
+    public static function findOrFail($slug){
+        //   for collection array use this keyworks
+        $blog = static::find($slug);
+        if(!$blog){
+            throw new ModelNotFoundException();//abort(404)
+        }
+            return $blog ;
+           
+            }
 }
 ?>
