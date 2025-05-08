@@ -10,38 +10,30 @@ class Blog
     public $slug;
     public $intro;
     public $body;
-    public function __construct($title,$slug,$intro,$body)
+    public $date;
+    public function __construct($title,$slug,$intro,$body,$date)
     {
         $this->title= $title;
         $this->slug= $slug;
         $this->intro= $intro;
         $this->body= $body;
-
+        $this->date = $date;
     }
     public static function all(){
-        $files=File::files(resource_path("blog"));
-        $blogs = [];
-        foreach($files as $file){
+        
+        return collect(File::files(resource_path("blog")))->map(function($file){
             $obj = YamlFrontMatter::parseFile($file);
+            return new Blog($obj->title,$obj->slug,$obj->intro,$obj->body(),$obj->date);
            
-            $blog = new Blog($obj->title,$obj->slug,$obj->intro,$obj->body());
-           $blogs[] = $blog;
-        }
-        return $blogs;
+        })->sortByDesc('date');
+        
+        
+    
     }
 
     public static function find($slug){
-  
-    $path= resource_path("blog/$slug.html");
-    if(!file_exists($path)){
-        return redirect("/");
-    }
-    return cache()->remember("posts.$slug",now()->addMinutes(2),function() use ($path){
-        // return file_get_contents($path);
-        $obj = YamlFrontMatter::parseFile($path);
-           
-        return new Blog($obj->title,$obj->slug,$obj->intro,$obj->body());
-    });
+//   for collection array use this keyworks
+    return static::all()->firstWhere('slug',$slug);
    
     }
 }
