@@ -13,6 +13,7 @@
    foreach ($blogs as $blog):
    ?>
    <h1><a href="blogs/<?= $blog->slug;?>"><?= $blog->title;?></a></h1>
+   <span><?= $blog->date;?></span>
    <div>
     <p><?= $blog->intro;?></p>
    </div>
