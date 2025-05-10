@@ -1,51 +1,20 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Blog
+class Blog extends Model
 {
-    public $title;
-    public $slug;
-    public $intro;
-    public $body;
-    public $date;
-    public function __construct($title,$slug,$intro,$body,$date)
-    {
-        $this->title= $title;
-        $this->slug= $slug;
-        $this->intro= $intro;
-        $this->body= $body;
-        $this->date = $date;
+    use HasFactory;
+    // protected $guarded=['id'];
+    protected $fillable=['title','intro','body'];
+    protected $with = ['category','author'];
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
-    public static function all(){
-        
-        return collect(File::files(resource_path("blog")))->map(function($file){
-            $obj = YamlFrontMatter::parseFile($file);
-            return new Blog($obj->title,$obj->slug,$obj->intro,$obj->body(),$obj->date);
-           
-        })->sortByDesc('date');
-        
-        
-    
+    public function author(){
+        return $this->belongsTo(User::class,'user_id');
     }
-
-    public static function find($slug){
-//   for collection array use this keyworks
-    return static::all()->firstWhere('slug',$slug);
-   
-    }
-
-    public static function findOrFail($slug){
-        //   for collection array use this keyworks
-        $blog = static::find($slug);
-        if(!$blog){
-            throw new ModelNotFoundException();//abort(404)
-        }
-            return $blog ;
-           
-            }
 }
-?>
