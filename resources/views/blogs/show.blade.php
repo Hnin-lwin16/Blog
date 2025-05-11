@@ -14,8 +14,8 @@
           />
           <h3 class="my-3">{{ $blog->title }}</h3>
           <div>
-            <div><a href="/users/{{ $blog->author->username }}">Author - {{ $blog->author->name }}</a></div>
-            <div class=" bdge bg-warning"> <a href="/categories/{{ $blog->category->slug }}">{{ $blog->category->name }}</a></div>
+            <div><a href="/?author={{ $blog->author->username }}">Author - {{ $blog->author->name }}</a></div>
+            <div class=" bdge bg-warning"> <a href="/?category={{ $blog->category->slug }}">{{ $blog->category->name }}</a></div>
             <div class=" text-secondary">Date - {{ $blog->created_at->diffForHumans() }}</div>
 
           </div>

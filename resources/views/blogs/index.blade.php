@@ -4,7 +4,7 @@
   
 <x-layout>
     <!-- blogs section -->
-    <x-blog-section :blogs="$blogs" :categories="$categories" :currentCategory="$currentCategory??null"/>
+    <x-blog-section :blogs="$blogs" />
 
     <!-- subscribe new blogs -->
    <x-subscribe/>

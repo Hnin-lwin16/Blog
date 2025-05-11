@@ -18,11 +18,19 @@ class DatabaseSeeder extends Seeder
     {
         User::truncate();
         Category::truncate();
-       $front= Category::factory()->create(['name'=>'frontend']);
-       $back=  Category::factory()->create(['name'=>'backend']);
+        $mgmg = User::factory()->create([
+            'name'=>'mgmg',
+            'username'=>'mgmg'
+        ]);
+         $aungaung = User::factory()->create([
+            'name'=>'aungaung',
+            'username'=>'aungaung'
+        ]);
+       $front= Category::factory()->create(['name'=>'frontend','slug'=>'fronted']);
+       $back=  Category::factory()->create(['name'=>'backend','slug'=>'backend']);
        
-        Blog::factory(2)->create(['category_id'=>$front->id]);
-         Blog::factory(2)->create(['category_id'=>$back->id]);
+        Blog::factory(2)->create(['category_id'=>$front->id,'user_id'=>$mgmg->id]);
+         Blog::factory(2)->create(['category_id'=>$back->id,'user_id'=>$aungaung->id]);
         // \App\Models\User::factory(10)->create();
        
         // \App\Models\User::factory()->create([
