@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
@@ -19,39 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    DB::listen(function($query){
-        logger($query->sql);
-    });
-    return view('blogs',[
-        // 'blogs'=> Blog::with('category','author')->get()
-        'blogs'=> Blog::latest()->get(),
-        'categories'=>Category::all()
-    ]);
-});
-Route::get('/blogs/{blog:slug}', function (Blog $blog)//blog::FindOrFail($slug) 
-{
-    // $blog = Blog::find($slug);
-   
-    return view("blog",[
-        'blog'=> $blog,
-        'randomBlogs'=>Blog::inRandomOrder()->take(3)->get()
-    ]);
-})->where('blog','[A-z\d\-_]+');
+Route::get('/', [BlogController::class,'index']);
 
-Route::get('/categories/{category:slug}',function(Category $category){
-    return view('blogs',[
-        // 'blogs'=> $category->blogs->load('author','category')
-         'blogs'=> $category->blogs,
-         'categories'=>Category::all(),
-         'currentCategory'=> $category
-    ]);
-});
+Route::get('/blogs/{blog:slug}', [BlogController::class,'show'])->where('blog','[A-z\d\-_]+');
 
-Route::get('/users/{user:username}',function(User $user){
-    return view('blogs',[
-        // 'blogs'=>$user->blogs->load('author','category')
-         'blogs'=>$user->blogs,
-         'categories'=>Category::all()
-    ]);
-});
+
+
+
