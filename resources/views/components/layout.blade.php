@@ -15,7 +15,7 @@
   </head>
   <body id="home">  
      <x-navbar/>
-     <x-hero/>
+     
    {{ $slot }}
    <x-footer/>
   <script
