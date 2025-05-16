@@ -23,7 +23,7 @@ class User extends Authenticatable
     //     'password',
     //     'username'
     // ];
-    protected $guarded=[];
+    // protected $guarded=[];
     public function blogs(){
         return $this->hasMany(Blog::class);
     }
