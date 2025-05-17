@@ -38,6 +38,13 @@ class User extends Authenticatable
        
     }//mutator
 
+    public function subscribedBlogs(){
+        return $this->belongsToMany(Blog::class);
+    }
+    public function isSubscribed($blog){
+        return auth()->user()->subscribedBlogs && auth()->user()->subscribedBlogs->contains('id',$blog->id);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
