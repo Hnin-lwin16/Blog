@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
@@ -35,5 +36,7 @@ public function subscribtionHandler(Blog $blog){
     }
     return redirect('/blogs/'.$blog->slug);
 }
+
+
 
 }
